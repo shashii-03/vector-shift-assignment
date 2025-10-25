@@ -5,6 +5,7 @@ import { SubmitButton } from './submit';
 function App() {
   return (
     <div>
+      <div className='text-6xl bg-red-200' >Hello</div>
       <PipelineToolbar />
       <PipelineUI />
       <SubmitButton />
