@@ -1,31 +1,31 @@
-// src/nodes/ConditionNode.js
-import { useState } from 'react';
-import { BaseNode } from './BaseNode';
+import { useState } from "react";
+import { BaseNode } from "./BaseNode";
+import { CONDITION_NODE_COLOR } from "../utils/color";
 
-export const ConditionNode = ({ id }) => {
-    const [condition, setCondition] = useState('x > 0');
+export const ConditionNode = ({ id, data }) => {
+    const [condition, setCondition] = useState(data?.condition || "");
+
 
     return (
         <BaseNode
             id={id}
             title="Condition Node"
-            inputs={[{ id: 'input', positionTopPercent: 50 }]}
-            outputs={[
-                { id: 'true', positionTopPercent: 35 },
-                { id: 'false', positionTopPercent: 65 },
-            ]}
-            color="#22c55e"
+            color={CONDITION_NODE_COLOR}
+            inputs={[{ id: "input" }]}
+            outputs={[{ id: "true" }, { id: "false" }]}
         >
-            <label>
-                Condition:
+            <div className="form-group">
+                <label htmlFor={`cond-${id}`} className="label-base">Condition</label>
                 <input
+                    id={`cond-${id}`}
                     type="text"
-                    placeholder="x > 0"
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
+                    className="input-text"
+                    placeholder="e.g. age > 18"
+                    style={{ borderColor: CONDITION_NODE_COLOR }}
                 />
-            </label>
-            <small style={{ color: '#666' }}>Outputs true/false based on condition.</small>
+            </div>
         </BaseNode>
     );
 };

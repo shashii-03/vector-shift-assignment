@@ -1,6 +1,6 @@
-// src/nodes/BaseNode.js
 import { Handle, Position } from 'reactflow';
 import { useCallback } from 'react';
+import { SOURE_COLOR, TARGET_COLOR } from '../utils/color';
 
 /**
  * BaseNode Component
@@ -29,7 +29,7 @@ export const BaseNode = ({
                 id={`${id}-${h.id}`}
                 style={{
                     top: h.positionTopPercent ? `${h.positionTopPercent}%` : `${(i + 1) * 25}%`,
-                    background: type === 'source' ? '#0d9488' : '#6366f1',
+                    background: type === 'source' ? SOURE_COLOR : TARGET_COLOR,
                 }}
             />
         ));

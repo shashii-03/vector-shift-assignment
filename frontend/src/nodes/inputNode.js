@@ -1,49 +1,42 @@
-// inputNode.js
+import { useState } from "react";
+import { BaseNode } from "./BaseNode";
+import { INPUT_NODE_COLOR } from "../utils/color";
 
-import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
 
 export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState(data.inputType || 'Text');
-
-  const handleNameChange = (e) => {
-    setCurrName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setInputType(e.target.value);
-  };
-
-  console.log("id", id, "data", data)
+  const [name, setName] = useState(data?.inputName || id.replace("customInput-", "input_"));
+  const [type, setType] = useState(data?.inputType || "Text");
 
   return (
-    <div style={{ width: 200, height: 80, border: '1px solid black' }}>
-      <div>
-        <span>Input</span>
+    <BaseNode id={id} title="Input Node" color={INPUT_NODE_COLOR} outputs={[{ id: "value" }]}>
+      <div className="flex items-center gap-2 mb-3">
+        <label htmlFor={`name-${id}`} className="label-base w-16">Name</label>
+        <input
+          id={`name-${id}`}
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="input-text flex-1"
+          style={{
+            borderColor: INPUT_NODE_COLOR,
+          }}
+        />
       </div>
-      <div>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={currName}
-            onChange={handleNameChange}
-          />
-        </label>
-        <label>
-          Type:
-          <select value={inputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">File</option>
-          </select>
-        </label>
+      <div className="flex items-center gap-2">
+        <label htmlFor={`type-${id}`} className="label-base w-16">Type</label>
+        <select
+          id={`type-${id}`}
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          className="select-base flex-1"
+          style={{
+            borderColor: INPUT_NODE_COLOR,
+          }}
+        >
+          <option value="Text">Text</option>
+          <option value="File">File</option>
+        </select>
       </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-value`}
-      />
-    </div>
+    </BaseNode>
   );
-}
+};

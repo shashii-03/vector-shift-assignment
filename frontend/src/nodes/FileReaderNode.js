@@ -1,18 +1,31 @@
-import { BaseNode } from './BaseNode';
+import { FILE_NODE_COLOR } from "../utils/color";
+import { BaseNode } from "./BaseNode";
+
 
 export const FileReaderNode = ({ id }) => {
+
+
     return (
         <BaseNode
             id={id}
             title="File Reader"
             outputs={[{ id: 'fileContent' }]}
-            color="#8b5cf6"
+            color={FILE_NODE_COLOR}
         >
-            <label>
+            <label className="flex flex-col text-sm text-text-light font-medium gap-1">
                 Upload File:
-                <input type="file" />
+                <input
+                    type="file"
+                    className="rounded-lg px-3 py-2  border outline-none focus:ring-2 text-text-light transition-all"
+                    style={{
+                        borderColor: FILE_NODE_COLOR,
+                    }}
+                />
             </label>
-            <small style={{ color: '#666' }}>Reads file and outputs text content.</small>
+
+            <small className="text-xs text-text-muted mt-1">
+                Reads file and outputs text content.
+            </small>
         </BaseNode>
     );
 };

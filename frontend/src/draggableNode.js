@@ -1,32 +1,32 @@
-// draggableNode.js
-
-export const DraggableNode = ({ type, label }) => {
+export const DraggableNode = ({ type, label, color = '#3b82f6' }) => {
   const onDragStart = (event, nodeType) => {
-    const appData = { nodeType }
-    event.target.style.cursor = 'grabbing';
+    const appData = { nodeType };
     event.dataTransfer.setData('application/reactflow', JSON.stringify(appData));
     event.dataTransfer.effectAllowed = 'move';
+    event.currentTarget.style.cursor = 'grabbing';
+    event.currentTarget.style.opacity = '0.6';
+  };
+
+  const onDragEnd = (event) => {
+    event.currentTarget.style.cursor = 'grab';
+    event.currentTarget.style.opacity = '1';
   };
 
   return (
     <div
-      className={type}
-      onDragStart={(event) => onDragStart(event, type)}
-      onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-      style={{
-        cursor: 'grab',
-        minWidth: '80px',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: '8px',
-        backgroundColor: '#1C2536',
-        justifyContent: 'center',
-        flexDirection: 'column'
-      }}
       draggable
+      onDragStart={(e) => onDragStart(e, type)}
+      onDragEnd={onDragEnd}
+      className="cursor-grab select-none rounded-lg min-w-[120px] h-[70px] flex items-center justify-center
+        border-2 bg-white
+        transition-all duration-200 ease-out
+        hover:shadow-lg hover:-translate-y-0.5"
+      style={{
+        borderColor: color,
+        borderLeftWidth: '4px',
+      }}
     >
-      <span style={{ color: '#fff' }}>{label}</span>
+      <span className="font-semibold text-sm text-gray-700">{label}</span>
     </div>
   );
 };
