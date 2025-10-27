@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { BaseNode } from "./BaseNode";
 import { API_NODE_COLOR } from "../utils/color";
+import { useStore } from "../store";
 
 
 export const APIFetchNode = ({ id, data }) => {
+
+    /* Hooks */
+    const updateNodeField = useStore((state) => state.updateNodeField);
+    const deleteNode = useStore((state) => state.deleteNode);
+
+    /* States */
     const [url, setUrl] = useState(data?.url || "");
     const [method, setMethod] = useState(data?.method || "GET");
 
-
+    /* Output */
     return (
-        <BaseNode id={id} title="API Node" color={API_NODE_COLOR} inputs={[{ id: "input" }]} outputs={[{ id: "response" }]}>
+        <BaseNode id={id} title="API Node" color={API_NODE_COLOR} inputs={[{ id: "input" }]} outputs={[{ id: "response" }]} onDelete={deleteNode}>
             <div className="form-group">
                 <label htmlFor={`url-${id}`} className="label-base">API URL</label>
                 <input

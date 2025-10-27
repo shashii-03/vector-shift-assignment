@@ -2,8 +2,15 @@ import { useState, useEffect, useRef } from 'react';
 import { BaseNode } from './BaseNode';
 import { Maximize2 } from 'lucide-react';
 import { TEXT_NODE_COLOR } from '../utils/color';
+import { useStore } from '../store';
 
 export const TextNode = ({ id, data }) => {
+
+  /* Hooks */
+  const updateNodeField = useStore((state) => state.updateNodeField);
+  const deleteNode = useStore((state) => state.deleteNode);
+
+  /* States */
   const [text, setText] = useState(data?.text || '{{input}}');
   const [variables, setVariables] = useState([]);
   const [height, setHeight] = useState(80);
@@ -11,7 +18,10 @@ export const TextNode = ({ id, data }) => {
   const textareaRef = useRef(null);
   const modalTextareaRef = useRef(null);
 
+  /* Constants */
   const MAX_HEIGHT = 200;
+
+  /* Functions */
 
   const adjustSize = () => {
     if (textareaRef.current) {
@@ -31,18 +41,6 @@ export const TextNode = ({ id, data }) => {
       }
     }
   };
-
-  useEffect(() => {
-    adjustSize();
-
-    const vars = [];
-    const regex = /{{\s*([a-zA-Z_$][\w$]*)\s*}}/g;
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-      vars.push(match[1]);
-    }
-    setVariables([...new Set(vars)]);
-  }, [text]);
 
   const inputHandles = variables.map((v) => ({ id: v }));
 
@@ -82,7 +80,20 @@ export const TextNode = ({ id, data }) => {
     setShowModal(false);
   };
 
-  // Adjust modal textarea on open
+
+  /* SideEffects */
+  useEffect(() => {
+    adjustSize();
+
+    const vars = [];
+    const regex = /{{\s*([a-zA-Z_$][\w$]*)\s*}}/g;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      vars.push(match[1]);
+    }
+    setVariables([...new Set(vars)]);
+  }, [text]);
+
   useEffect(() => {
     if (showModal && modalTextareaRef.current) {
       modalTextareaRef.current.style.height = 'auto';
@@ -98,6 +109,7 @@ export const TextNode = ({ id, data }) => {
         inputs={inputHandles}
         outputs={[{ id: 'output' }]}
         color={TEXT_NODE_COLOR}
+        onDelete={deleteNode}
         style={{ minHeight: height, width: 200 }}
       >
         <div className="relative">

@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { BaseNode } from "./BaseNode";
 import { OUTPUT_NODE_COLOR } from "../utils/color";
+import { useStore } from "../store";
 
 
 export const OutputNode = ({ id, data }) => {
+
+  /* Hooks */
+  const updateNodeField = useStore((state) => state.updateNodeField);
+  const deleteNode = useStore((state) => state.deleteNode);
+
+  /* States */
   const [name, setName] = useState(data?.outputName || id.replace("customOutput-", "output_"));
   const [type, setType] = useState(data?.outputType || "Text");
+
+  /* Output */
+
   return (
-    <BaseNode id={id} title="Output Node" color={OUTPUT_NODE_COLOR} inputs={[{ id: "value" }]}>
+    <BaseNode id={id} title="Output Node" color={OUTPUT_NODE_COLOR} inputs={[{ id: "value" }]} onDelete={deleteNode}>
       <div className="flex items-center gap-2 mb-3">
         <label htmlFor={`outputName-${id}`} className="label-base w-16">Name</label>
         <input

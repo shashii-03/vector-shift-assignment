@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],   
 )
 
-# Node model based on your data
+
 class NodeData(BaseModel):
     id: str
     nodeType: str
@@ -30,7 +30,7 @@ class Node(BaseModel):
     type: str
     data: NodeData
 
-# Edge model based on your data
+
 class Edge(BaseModel):
     source: str
     target: str

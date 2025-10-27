@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { BaseNode } from "./BaseNode";
 import { CONDITION_NODE_COLOR } from "../utils/color";
+import { useStore } from "../store";
 
 export const ConditionNode = ({ id, data }) => {
+
+    /* Hooks */
+    const updateNodeField = useStore((state) => state.updateNodeField);
+    const deleteNode = useStore((state) => state.deleteNode);
+
+    /* States */
     const [condition, setCondition] = useState(data?.condition || "");
 
-
+    /* Output */
     return (
         <BaseNode
             id={id}
@@ -13,6 +20,7 @@ export const ConditionNode = ({ id, data }) => {
             color={CONDITION_NODE_COLOR}
             inputs={[{ id: "input" }]}
             outputs={[{ id: "true" }, { id: "false" }]}
+            onDelete={deleteNode}
         >
             <div className="form-group">
                 <label htmlFor={`cond-${id}`} className="label-base">Condition</label>
